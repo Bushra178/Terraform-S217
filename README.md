@@ -70,21 +70,13 @@ You need to install the following tools:
 
 | Name | Description |
 |------|-------------|
-| <a name="output_certificate_arn"></a> [acm](#output\acm\certificate_arn) | n/a |
-| <a name="output_target_group_arn"></a> [loadbalancer](#output\loadbalancer\target_group_arn) | n/a |
-| <a name="output_zone_id"></a> [loadbalancer](#output\loadbalancer\zone_id) | n/a |
-| <a name="output_dns_name"></a> [loadbalancer](#output\loadbalancer\dns_name) | n/a |
-| <a name="output_route53_zone_id"></a> [route53](#output\route53\route53_zone_id) | n/a |
-| <a name="output_private_subnet_ids"></a> [subnet](#output\subnet\private_subnet_ids) | n/a |
-| <a name="output_public_subnet_ids"></a> [subnet](#output\subnet\public_subnet_ids) | n/a |
-| <a name="output_security_group_id"></a> [webserver](#output\webserver\security_group_id) | n/a |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| [wordpress_url] | URL of Wordpress server |
-| [rds_endpoint]  | RDS database endpoint |
-| [alb_endpoint]  | Load balancer endpoint for the Wordpress Server |
+| [certificate_arn] | arn of the generated certificate |
+| [target_group_arn]  | arn of the loadbalancer target group |
+| [zone_id]  | Zone id of the Load balancer |
+| [dns_name] | DNS name of the Load balancer |
+| [route53_zone_id]  | Zone id for the route53 |
+| [private_subnet_ids]  | IDs of the private subnet |
+| [public_subnet_ids]  | IDs of the public subnet |
+| [security_group_id]  | ID of the security group |
 
 ## Getting Started
