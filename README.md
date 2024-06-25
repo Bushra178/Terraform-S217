@@ -60,11 +60,12 @@ You need to install the following tools:
 
 | Name | Description | Version |
 |------|--------|---------|
-| <a name="module_acm"></a> [acm](#module\acm) | ./modules/acm | n/a |
-| <a name="module_loadbalancer"></a> [alb](#module\_loadbalancer) | ./modules/alb | n/a |
-| <a name="module_webserver"></a> [asg](#module\_webserver) | ./modules/asg | n/a |
-| <a name="module_route53"></a> [route53](#module\_route53) | ./modules/route53 | n/a |
-| <a name="module_subnet"></a> [vpc](#module\_subnet) | ./modules/vpc | n/a |
+| <a name="module_acm"></a> [acm](#module\acm) | module to configure aws certificate manager | n/a |
+| <a name="module_loadbalancer"></a> [alb](#module\_loadbalancer) | .module to configure loadbalancer | n/a |
+| <a name="module_webserver"></a> [asg](#module\_webserver) | module to configure auto scaling group| n/a |
+| <a name="module_route53"></a> [route53](#module\_route53) | module to configure route53 | n/a |
+| <a name="module_subnet"></a> [vpc](#module\_subnet) | module to configure subnets, igw, nat gateway and route tables| n/a |
+| <a name="module_cloudwatch"></a> [vpc](#module\ cloudwatch) | module to configure cloudwatch alarms | n/a |
 
 ## Outputs
 
