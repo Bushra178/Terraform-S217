@@ -58,9 +58,9 @@ You need to install the following tools:
 
 ## Modules
 
-| Name | Description | 
-|------|--------|---------|
-| <a name="module_acm"></a> [acm](#module\acm) | module to configure aws certificate manager | 
+| Name | Description 
+|------|--------|
+| <a name="module_acm"></a> [acm](#module\acm) | module to configure aws certificate manager 
 | <a name="module_loadbalancer"></a> [alb](#module\_loadbalancer) | .module to configure loadbalancer 
 | <a name="module_webserver"></a> [asg](#module\_webserver) | module to configure auto scaling group| 
 | <a name="module_route53"></a> [route53](#module\_route53) | module to configure route53 | 
