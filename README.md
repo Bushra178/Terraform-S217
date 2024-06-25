@@ -18,6 +18,7 @@ key Components are:
 > - AWS Certificate Manager
 > - Route 53
 > - Launch configuration
+> - CloudWatch Alarms
 
 ## Learning Outcomes
 
@@ -27,6 +28,7 @@ key Components are:
 > - Using Route 53 and ACM to generate and validate SSL certificates.
 > - Creating a Launch Configuration and Autoscaling Group ( Scalability )
 > - Creating an Application Load Balancer and Target Group  ( Availability )
+> - Autoscale instances based on cloudwatch alarms
 
 ### Installation Instructions
 
@@ -62,10 +64,10 @@ You need to install the following tools:
 |------|--------|
 | <a name="module_acm"></a> [acm](#module\acm) | module to configure aws certificate manager 
 | <a name="module_loadbalancer"></a> [alb](#module\_loadbalancer) | .module to configure loadbalancer 
-| <a name="module_webserver"></a> [asg](#module\_webserver) | module to configure auto scaling group| 
-| <a name="module_route53"></a> [route53](#module\_route53) | module to configure route53 | 
-| <a name="module_subnet"></a> [subnet](#module\_subnet) | module to configure subnets, igw, nat gateway and route tables|
-| <a name="module_cloudwatch"></a> [cloudwatch](#module\ cloudwatch) | module to configure cloudwatch alarms | 
+| <a name="module_webserver"></a> [asg](#module\_webserver) | module to configure auto scaling group
+| <a name="module_route53"></a> [route53](#module\_route53) | module to configure route53 
+| <a name="module_subnet"></a> [subnet](#module\_subnet) | module to configure subnets, igw, nat gateway and route tables
+| <a name="module_cloudwatch"></a> [cloudwatch](#module\cloudwatch) | module to configure cloudwatch alarms
 
 ## Outputs
 
@@ -79,5 +81,8 @@ You need to install the following tools:
 | [private_subnet_ids]  | IDs of the private subnet |
 | [public_subnet_ids]  | IDs of the public subnet |
 | [security_group_id]  | ID of the security group |
+| [autoscaling_group_name]  | asg id to monitor |
+| [scale_out_policy_arn]  | arn of the scale out policy of asg |
+| [scale_in_policy_arn]  | arn of the scale in policy of asg |
 
-## Getting Started
+
