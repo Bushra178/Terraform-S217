@@ -58,14 +58,14 @@ You need to install the following tools:
 
 ## Modules
 
-| Name | Description | Version |
+| Name | Description | 
 |------|--------|---------|
-| <a name="module_acm"></a> [acm](#module\acm) | module to configure aws certificate manager | n/a |
-| <a name="module_loadbalancer"></a> [alb](#module\_loadbalancer) | .module to configure loadbalancer | n/a |
-| <a name="module_webserver"></a> [asg](#module\_webserver) | module to configure auto scaling group| n/a |
-| <a name="module_route53"></a> [route53](#module\_route53) | module to configure route53 | n/a |
-| <a name="module_subnet"></a> [vpc](#module\_subnet) | module to configure subnets, igw, nat gateway and route tables| n/a |
-| <a name="module_cloudwatch"></a> [vpc](#module\ cloudwatch) | module to configure cloudwatch alarms | n/a |
+| <a name="module_acm"></a> [acm](#module\acm) | module to configure aws certificate manager | 
+| <a name="module_loadbalancer"></a> [alb](#module\_loadbalancer) | .module to configure loadbalancer 
+| <a name="module_webserver"></a> [asg](#module\_webserver) | module to configure auto scaling group| 
+| <a name="module_route53"></a> [route53](#module\_route53) | module to configure route53 | 
+| <a name="module_subnet"></a> [subnet](#module\_subnet) | module to configure subnets, igw, nat gateway and route tables|
+| <a name="module_cloudwatch"></a> [cloudwatch](#module\ cloudwatch) | module to configure cloudwatch alarms | 
 
 ## Outputs
 
