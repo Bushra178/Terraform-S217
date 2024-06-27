@@ -1,7 +1,7 @@
 resource "aws_subnet" "public_subnet_us_east_1a" {
   vpc_id                  = var.vpc_id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1a"
+  cidr_block              = var.subnet_cidr_block_1
+  availability_zone       = var.az_1a
   map_public_ip_on_launch = true
 
   tags = {
@@ -11,8 +11,8 @@ resource "aws_subnet" "public_subnet_us_east_1a" {
 
 resource "aws_subnet" "private_subnet_us_east_1a" {
   vpc_id            = var.vpc_id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-1a"
+  cidr_block        = var.subnet_cidr_block_2
+  availability_zone = var.az_1a
 
   tags = {
     Name = "${var.env_prefix}-private_subnet_us_east_1a"
@@ -21,8 +21,8 @@ resource "aws_subnet" "private_subnet_us_east_1a" {
 
 resource "aws_subnet" "public_subnet_us_east_1b" {
   vpc_id                  = var.vpc_id
-  cidr_block              = "10.0.3.0/24"
-  availability_zone       = "us-east-1b"
+  cidr_block              = var.subnet_cidr_block_3
+  availability_zone       = var.az_1b
   map_public_ip_on_launch = true
 
   tags = {
@@ -32,8 +32,8 @@ resource "aws_subnet" "public_subnet_us_east_1b" {
 
 resource "aws_subnet" "private_subnet_us_east_1b" {
   vpc_id            = var.vpc_id
-  cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-east-1b"
+  cidr_block        = var.subnet_cidr_block_4
+  availability_zone = var.az_1b
 
   tags = {
     Name = "${var.env_prefix}-private_subnet_us_east_1b"
@@ -91,7 +91,7 @@ resource "aws_route_table" "public_route_table" {
   vpc_id = var.vpc_id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.default_route
     gateway_id = aws_internet_gateway.app_igw.id
   }
 
@@ -116,7 +116,7 @@ resource "aws_route_table" "private_route_table_us_east_1a" {
   vpc_id = var.vpc_id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block     = var.default_route
     nat_gateway_id = aws_nat_gateway.app_nat_gateway_us_east_1a.id  
   }
 
@@ -129,7 +129,7 @@ resource "aws_route_table" "private_route_table_us_east_1b" {
   vpc_id = var.vpc_id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block     = var.default_route
     nat_gateway_id = aws_nat_gateway.app_nat_gateway_us_east_1b.id  
   }
 
