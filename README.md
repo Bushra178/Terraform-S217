@@ -90,7 +90,33 @@ Wordpress app UI
 
 ![Screenshot](images/ui.png)
 
+VPC
+
+![Screenshot](images/vpc.png)
+
+Auto Scaling group
+
+![Screenshot](images/asg.png)
+
 EC2 Instances
+
+![Screenshot](images/ec2.png)
+
+Subnets
+
+![Screenshot](images/subnets.png)
+
+Security Groups
+
+![Screenshot](images/sg.png)
+
+Load Balancer
+
+![Screenshot](images/lb.png)
+
+Route 53
+
+![Screenshot](images/route.png)
 
 
 
