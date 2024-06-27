@@ -90,7 +90,7 @@ You need to install the following tools:
 
 ![Screenshot](images/ui.png)
 
-VPC
+### VPC
 
 ![Screenshot](images/vpc.png)
 
@@ -113,10 +113,6 @@ VPC
 ### Load Balancer
 
 ![Screenshot](images/lb.png)
-
-### Route 53
-
-![Screenshot](images/route.png)
 
 
 
