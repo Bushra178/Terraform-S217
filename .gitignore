@@ -2,3 +2,9 @@ terraform.tfvars
 terraform.state
 id_rsa.pub
 id_rsa
+.terraform.lock.hcl
+awscliv2.zip
+.terraform
+aws
+terraform.tfstate
+terraform.tfstate.backups

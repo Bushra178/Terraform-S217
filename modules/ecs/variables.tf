@@ -1,0 +1,11 @@
+variable wordpress_image_name {}
+variable db_name {}
+variable db_user {}
+variable db_password {}
+variable db_address {}
+variable public_subnet_ids {}
+variable ecs_target_group_arn {}
+variable security_group_id {}
+variable env_prefix {}
+variable autoscaling_group_arn {}
+variable ecs_task_role {}

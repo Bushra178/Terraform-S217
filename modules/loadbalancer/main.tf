@@ -10,11 +10,13 @@ resource "aws_lb" "app_lb" {
   }
 }
 
-resource "aws_lb_target_group" "lb-target-group" {
-  name     = "wordpress-app-target-group"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+# ASG Target Group (Instance targets)
+resource "aws_lb_target_group" "asg_target_group" {
+  name       = "asg-target-group"
+  port       = 80
+  protocol   = "HTTP"
+  vpc_id     = var.vpc_id
+  target_type = "instance"
 
   health_check {
     interval            = 30
@@ -26,9 +28,32 @@ resource "aws_lb_target_group" "lb-target-group" {
   }
 
   tags = {
-    Name = "${var.env_prefix}-lb-target-group"
+    Name = "${var.env_prefix}-asg-target-group"
   }
 }
+
+#ECS Target Group (IP targets)
+resource "aws_lb_target_group" "ecs_target_group" {
+  name     = "ecs-target-group"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+  target_type = "ip" 
+
+  health_check {
+    interval            = 30
+    path                = "/"
+    protocol            = "HTTP"
+    timeout             = 5
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+  }
+
+  tags = {
+    Name = "${var.env_prefix}-ecs-target-group"
+  }
+}
+
 
 resource "aws_lb_listener" "lb-listener" {
   load_balancer_arn = aws_lb.app_lb.arn
@@ -36,8 +61,7 @@ resource "aws_lb_listener" "lb-listener" {
   protocol          = "HTTP" 
 
   default_action {
-    target_group_arn = aws_lb_target_group.lb-target-group.arn
-    type             = "redirect"
+    type          = "redirect"
     redirect {
       port        = 443
       protocol    = "HTTPS"
@@ -50,21 +74,55 @@ resource "aws_lb_listener" "lb-listener" {
   }
 }
 
-resource "aws_lb_listener" "lb-listener-https" {
+resource "aws_lb_listener" "lb_listener_https" {
   load_balancer_arn = aws_lb.app_lb.arn
   port              = 443
   protocol          = "HTTPS"
-
-  ssl_policy     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-  certificate_arn = var.certificate_arn
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = var.certificate_arn
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lb-target-group.arn
+    target_group_arn = aws_lb_target_group.ecs_target_group.arn  # Default to ECS target group
   }
 
   tags = {
     Name = "${var.env_prefix}-lb-listener-https"
   }
 }
+
+# Listener Rule for ECS Target Group
+resource "aws_lb_listener_rule" "ecs_rule" {
+  listener_arn = aws_lb_listener.lb_listener_https.arn
+  priority     = 10
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ecs_target_group.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/ecs/*"]
+    }
+}
+}
+  
+# Listener Rule for ASG Target Group
+resource "aws_lb_listener_rule" "asg_rule" {
+  listener_arn = aws_lb_listener.lb_listener_https.arn
+  priority     = 20
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.asg_target_group.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/asg/*"]
+    }
+}
+}
+
 

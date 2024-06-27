@@ -1,40 +1,3 @@
-resource "aws_security_group" "wordpressApp_sg" {
-  vpc_id = var.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-    prefix_list_ids = []
-  }
-
-  tags = {
-    Name = "${var.env_prefix}-sg"
-  }
-}
-
 data "aws_ami" "latest_aws_linux_image" {
   most_recent = true
   owners = ["amazon"]
@@ -54,7 +17,7 @@ output "aws_ami_id" {
 
 resource "aws_key_pair" "ssh-key" {
   key_name = "server-key"
-  public_key = file("/home/xgrid/Documents/bushrafatima/id_rsa.pub")
+  public_key = file("/home/xgrid/Documents/terraform-s217/id_rsa.pub")
 }
 
 
@@ -63,10 +26,14 @@ resource "aws_launch_configuration" "wordpress_launch_config" {
   name          = "wordpress-app-launch-instance"
   image_id      = data.aws_ami.latest_aws_linux_image.id
   instance_type = var.instance_type
+  iam_instance_profile = var.iam_instance_profile
   key_name      = aws_key_pair.ssh-key.key_name
   associate_public_ip_address = true
-  security_groups = [aws_security_group.wordpressApp_sg.id]
-  user_data = filebase64("/home/xgrid/Documents/bushrafatima/user-data.sh")
+  security_groups = var.security_group_id
+  user_data                   = <<EOF
+#!/bin/bash
+echo ECS_CLUSTER=${var.ecs_cluster_name} >> /etc/ecs/ecs.config
+EOF
 }  
 
 # Define the Auto Scaling Group
@@ -74,10 +41,13 @@ resource "aws_autoscaling_group" "ec2_autoscaling_group" {
   name                 = "wordpress-ec2-autoscale"
   launch_configuration = aws_launch_configuration.wordpress_launch_config.name
   min_size             = 2
-  max_size             = 6
-  desired_capacity     = 4
+  max_size             = 4
+  desired_capacity     = 2
   vpc_zone_identifier  = var.private_subnet_ids  
-  target_group_arns = [var.target_group_arn]
+  target_group_arns = [var.asg_target_group_arn]
+
+  # Enable instance protection from scale in
+  protect_from_scale_in = true
   
   # Ensure Auto Scaling Group waits for instances to be InService before marking ASG creation complete
   health_check_type          = "ELB"
