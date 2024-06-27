@@ -85,4 +85,21 @@ You need to install the following tools:
 | [scale_out_policy_arn]  | arn of the scale out policy of asg |
 | [scale_in_policy_arn]  | arn of the scale in policy of asg |
 
+## Screenshot
+Wordpress app UI
+
+![Screenshot](images/ui.png)
+
+EC2 Instances
+
+
+
+
+
+
+
+
+
+
+
 
