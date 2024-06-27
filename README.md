@@ -85,8 +85,8 @@ You need to install the following tools:
 | [scale_out_policy_arn]  | arn of the scale out policy of asg |
 | [scale_in_policy_arn]  | arn of the scale in policy of asg |
 
-## Screenshot
-Wordpress app UI
+## Working App
+###Wordpress app UI
 
 ![Screenshot](images/ui.png)
 
@@ -94,27 +94,27 @@ VPC
 
 ![Screenshot](images/vpc.png)
 
-Auto Scaling group
+###Auto Scaling group
 
 ![Screenshot](images/asg.png)
 
-EC2 Instances
+###EC2 Instances
 
 ![Screenshot](images/ec2.png)
 
-Subnets
+###Subnets
 
 ![Screenshot](images/subnets.png)
 
-Security Groups
+###Security Groups
 
 ![Screenshot](images/sg.png)
 
-Load Balancer
+###Load Balancer
 
 ![Screenshot](images/lb.png)
 
-Route 53
+###Route 53
 
 ![Screenshot](images/route.png)
 
