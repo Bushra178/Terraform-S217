@@ -11,3 +11,5 @@ output "public_subnet_ids" {
     aws_subnet.public_subnet_us_east_1b.id
   ]
 }
+
+

@@ -71,3 +71,5 @@ resource "aws_cloudwatch_metric_alarm" "ecs_low_memory_utilization" {
   }
   alarm_actions             = [var.scale_in_policy_arn]
 }
+
+

@@ -5,3 +5,5 @@ output "iam_instance_profile" {
 output "ecs_task_role" {
     value = aws_iam_role.ecs_task_role.arn
 }
+
+

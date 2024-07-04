@@ -15,4 +15,3 @@ output "scale_in_policy_arn" {
 }
 
 
-

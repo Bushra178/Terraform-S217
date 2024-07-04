@@ -1,17 +1,20 @@
+# Get existing route53 Zone name
 data "aws_route53_zone" "wp_route53_zone" {
-  name = "xldp.xgrid.co"
-  private_zone = false
+  name = var.route_zone_name
+  private_zone = var.private_zone
 }
 
+#Create route53 record
 resource "aws_route53_record" "alb_record" {
   zone_id = data.aws_route53_zone.wp_route53_zone.zone_id
-  name    = "fatima-wordpressApp"
-  type    = "A"
+  name    = var.alb_record_name
+  type    = var.record_type
 
   alias {
     name                   = var.lb_dns_name
     zone_id                = var.lb_zone_id
-    evaluate_target_health = true
+    evaluate_target_health = var.evaluate_target_health
   }
 }
+
 

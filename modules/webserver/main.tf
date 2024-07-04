@@ -1,3 +1,4 @@
+# Get linux image Id for EC2 Instance
 data "aws_ami" "latest_aws_linux_image" {
   most_recent = true
   owners = ["amazon"]
@@ -11,25 +12,14 @@ data "aws_ami" "latest_aws_linux_image" {
   }
 }
 
-output "aws_ami_id" {
-  value = data.aws_ami.latest_aws_linux_image.id
-}
-
-resource "aws_key_pair" "ssh-key" {
-  key_name = "server-key"
-  public_key = file("/home/xgrid/Documents/terraform-s217/id_rsa.pub")
-}
-
-
 # Define the launch configuration
 resource "aws_launch_configuration" "wordpress_launch_config" {
-  name          = "wordpress-app-launch-instance"
+  name          = var.launch_config_name
   image_id      = data.aws_ami.latest_aws_linux_image.id
   instance_type = var.instance_type
   iam_instance_profile = var.iam_instance_profile
-  key_name      = aws_key_pair.ssh-key.key_name
-  associate_public_ip_address = true
-  security_groups = var.security_group_id
+  security_groups = [var.asg_sg]
+
   user_data                   = <<EOF
 #!/bin/bash
 echo ECS_CLUSTER=${var.ecs_cluster_name} >> /etc/ecs/ecs.config
@@ -38,48 +28,43 @@ EOF
 
 # Define the Auto Scaling Group
 resource "aws_autoscaling_group" "ec2_autoscaling_group" {
-  name                 = "wordpress-ec2-autoscale"
+  name                 = var.autoscaling_group_name
   launch_configuration = aws_launch_configuration.wordpress_launch_config.name
-  min_size             = 2
-  max_size             = 4
-  desired_capacity     = 2
+  min_size             = var.asg_min_size
+  max_size             = var.asg_max_size
+  desired_capacity     = var.asg_desired_capacity
   vpc_zone_identifier  = var.private_subnet_ids  
   target_group_arns = [var.asg_target_group_arn]
 
   # Enable instance protection from scale in
-  protect_from_scale_in = true
+  protect_from_scale_in = var.scale_in_protection
   
   # Ensure Auto Scaling Group waits for instances to be InService before marking ASG creation complete
-  health_check_type          = "ELB"
-  health_check_grace_period  = 300
+  health_check_type          = var.asg_health_check_type
+  health_check_grace_period  = var.asg_health_check_grace_period
 
   tag {
     key                 = "Name"
-    value               = "${var.env_prefix}-asg"
-    propagate_at_launch = true
+    value               = "${var.app_prefix}-asg"
+    propagate_at_launch = var.propagate_at_launch
   }
 }
 
 # Scaling policy for scaling out
 resource "aws_autoscaling_policy" "scale_out_policy" {
-  name                   = "scale-out"
-  scaling_adjustment     = 1
-  adjustment_type        = "ChangeInCapacity"
-  cooldown               = 120
+  name                   = var.scale_out_policy_name
+  scaling_adjustment     = var.scale_out_adjustment
+  adjustment_type        = var.scale_out_adjustment_type
+  cooldown               = var.scale_out_cooldown
   autoscaling_group_name = aws_autoscaling_group.ec2_autoscaling_group.name
 }
 
 # Scaling policy for scaling in
 resource "aws_autoscaling_policy" "scale_in_policy" {
-  name                   = "scale-in"
-  scaling_adjustment     = -1
-  adjustment_type        = "ChangeInCapacity"
-  cooldown               = 120
+  name                   = var.scale_in_policy_name
+  scaling_adjustment     = var.scale_in_adjustment
+  adjustment_type        = var.scale_in_adjustment_type
+  cooldown               = var.scale_in_cooldown
   autoscaling_group_name = aws_autoscaling_group.ec2_autoscaling_group.name
 }
-
-
-
-
-
 
