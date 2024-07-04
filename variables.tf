@@ -4,3 +4,7 @@ variable my_ip {}
 variable instance_type {}
 variable image_name {}
 variable env_prefix {}
+variable wordpress_image_name {}
+variable db_name {}
+variable db_user {}
+variable db_password {}

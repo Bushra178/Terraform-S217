@@ -1,69 +1,73 @@
-# Update CloudWatch Alarm for High CPU Utilization
-resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
-  alarm_name                = "high-cpu-utilization"
+# ECS CPU Utilization High Alarm
+resource "aws_cloudwatch_metric_alarm" "ecs_high_cpu_utilization" {
+  alarm_name                = "ECSHighCPUUtilization"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = "2"
   metric_name               = "CPUUtilization"
-  namespace                 = "AWS/EC2"
+  namespace                 = "AWS/ECS"
   period                    = "60"
   statistic                 = "Average"
   threshold                 = "40"
-  alarm_description         = "This metric monitors ec2 cpu utilization"
-  dimensions                = {
-    AutoScalingGroupName = var.autoscaling_group_name
+  alarm_description         = "This alarm monitors high CPU utilization for the ECS service"
+  dimensions = {
+    ClusterName  = var.ecs_cluster_name
+    ServiceName  = var.ecs_service_name
   }
   alarm_actions             = [var.scale_out_policy_arn]
   ok_actions                = [var.scale_in_policy_arn]
 }
 
-# Update CloudWatch Alarm for High Memory Utilization
-resource "aws_cloudwatch_metric_alarm" "high_memory_utilization" {
-  alarm_name                = "high-memory-utilization"
+# ECS Memory Utilization High Alarm
+resource "aws_cloudwatch_metric_alarm" "ecs_high_memory_utilization" {
+  alarm_name                = "ECSHighMemoryUtilization"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = "2"
   metric_name               = "MemoryUtilization"
-  namespace                 = "System/Linux"
+  namespace                 = "AWS/ECS"
   period                    = "60"
   statistic                 = "Average"
   threshold                 = "60"
-  alarm_description         = "This metric monitors ec2 memory utilization"
-  dimensions                = {
-    AutoScalingGroupName = var.autoscaling_group_name
+  alarm_description         = "This alarm monitors high memory utilization for the ECS service"
+  dimensions = {
+    ClusterName  = var.ecs_cluster_name
+    ServiceName  = var.ecs_service_name
   }
   alarm_actions             = [var.scale_out_policy_arn]
   ok_actions                = [var.scale_in_policy_arn]
 }
 
-# Low CPU Utilization Alarm
-resource "aws_cloudwatch_metric_alarm" "low_cpu_utilization" {
-  alarm_name                = "LowCPUUtilization"
+# ECS CPU Utilization Low Alarm
+resource "aws_cloudwatch_metric_alarm" "ecs_low_cpu_utilization" {
+  alarm_name                = "ECSLowCPUUtilization"
   comparison_operator       = "LessThanThreshold"
   evaluation_periods        = "2"
   metric_name               = "CPUUtilization"
-  namespace                 = "AWS/EC2"
+  namespace                 = "AWS/ECS"
   period                    = "120"
   statistic                 = "Average"
   threshold                 = "20"
-  alarm_description         = "This alarm triggers if CPU utilization is less than 20% for 2 consecutive periods."
-  dimensions                = {
-    AutoScalingGroupName = var.autoscaling_group_name
+  alarm_description         = "This alarm monitors low CPU utilization for the ECS service"
+  dimensions = {
+    ClusterName  = var.ecs_cluster_name
+    ServiceName  = var.ecs_service_name
   }
   alarm_actions             = [var.scale_in_policy_arn]
 }
 
-# Low Memory Utilization Alarm
-resource "aws_cloudwatch_metric_alarm" "low_memory_utilization" {
-  alarm_name                = "LowMemoryUtilization"
+# ECS Memory Utilization Low Alarm
+resource "aws_cloudwatch_metric_alarm" "ecs_low_memory_utilization" {
+  alarm_name                = "ECSLowMemoryUtilization"
   comparison_operator       = "LessThanThreshold"
   evaluation_periods        = "2"
   metric_name               = "MemoryUtilization"
-  namespace                 = "CWAgent"
+  namespace                 = "AWS/ECS"
   period                    = "120"
   statistic                 = "Average"
   threshold                 = "30"
-  alarm_description         = "This alarm triggers if memory utilization is less than 30% for 2 consecutive periods."
-  dimensions                = {
-    AutoScalingGroupName = var.autoscaling_group_name
+  alarm_description         = "This alarm monitors low memory utilization for the ECS service"
+  dimensions = {
+    ClusterName  = var.ecs_cluster_name
+    ServiceName  = var.ecs_service_name
   }
   alarm_actions             = [var.scale_in_policy_arn]
 }
