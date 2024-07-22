@@ -17,3 +17,18 @@ variable "alb_record_name" {
   description = "The name of the Route 53 record for the ALB"
   type        = string
 }
+
+variable "route53_private_zone" {
+  description = "Name or ID of the private Route 53 hosted zone"
+  type        = string
+}
+
+variable "route53_type" {
+  description = "Type of Route 53 record (e.g., A, CNAME, Alias)"
+  type        = string
+}
+
+variable "route53_health" {
+  description = "Health check configuration for Route 53 records (optional)"
+  type        = bool
+}

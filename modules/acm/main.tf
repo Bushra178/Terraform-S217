@@ -1,11 +1,12 @@
 #import aws certificate module
-module "copebit_terraform_acm_test" {
+module "acm_certificate" {
   source                    = "terraform-aws-modules/acm/aws"
   version                   = "~> 5.0"
   domain_name               = var.domain_name
   zone_id                   = var.route53_zone_id
-  validate_certificate      = true
-  wait_for_validation       = true
-  create_route53_records    = true
-  validation_method         = "DNS"
+  validate_certificate      = var.validate_certificate
+  wait_for_validation       = var.wait_for_validation
+  create_route53_records    = var.create_route53_records
+  validation_method         = var.validation_method
+  subject_alternative_names =  ["${var.subject_alternative_names}.${var.domain_name}"]
 }
